@@ -1,6 +1,7 @@
 import { GoogleAuthProvider,getAuth, signInWithPopup, signOut,onAuthStateChanged} from "firebase/auth";
 import { useEffect, useState } from "react";
 import initialization from './../Firebase/firebase.init';
+import { useLocation, useHistory } from 'react-router';
 
 
 
@@ -8,31 +9,41 @@ import initialization from './../Firebase/firebase.init';
 initialization(); 
 
 const GoogleProvider =  new GoogleAuthProvider();
-const FacebookProvider = new GoogleAuthProvider(); 
+
 
 const auth = getAuth();
 
 const useFirebase = () =>{
+  
     const [user,setUser] = useState([])
+    const [error,setError] = useState(""); 
 
-    const googleSign = () =>{
-        signInWithPopup(auth, GoogleProvider)
-            .then((result)=>{
-                const user = result.user;
-                console.log(user); 
-                setUser(user)
-            })
-            .catch((error)=>{
-                console.log(error)
-            })
+    const [loading,setIsLoading] = useState(true); 
+
+    const googleSign = (history,location) =>{
+      setIsLoading(true); 
+      signInWithPopup(auth, GoogleProvider)     
+        .then((result)=>{
+            const user = result.user;
+            const destination = location?.state?.from || '/';
+            history.replace(destination);
+            console.log(user); 
+        })
+        .catch((error)=>{
+        console.log(error)
+        })
+        .finally(()=>setIsLoading(false))      
     }
 
     const googleSignOut = ()=>{
+      setIsLoading(true)
         signOut(auth).then(() => {
-            setUser([])
+            setUser({})
           }).catch((error) => {
             console.log(error)
-          });
+          })
+          .finally(()=>setIsLoading(false))
+       
     }
 
     useEffect(()=>{
@@ -40,16 +51,21 @@ const useFirebase = () =>{
             if (user) {
               setUser(user)
             } else {
-              // User is signed out
-              // ...
+              setUser({})
             }
-    },[auth])
-      });
+            setIsLoading(false)
+        }
+        )},[]);
+     
+
+      
       return(
           {
             googleSign,
             googleSignOut,
             user,
+            loading,
+            setIsLoading
             
           }
       )

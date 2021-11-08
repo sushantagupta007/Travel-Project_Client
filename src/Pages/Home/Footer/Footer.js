@@ -10,11 +10,11 @@ const Footer = () => {
             <Row>
                 <Col sm={4} lg={4} xs={12} className="d-flex flex-column">
                     <h4> Useful Links</h4> 
-                    <a href="#" className="text-black">Bangladesh Passport Office</a>
-                    <a href="#" className="text-black">Bangladesh Passport Office</a>
-                    <a href="#" className="text-black">Bangladesh Passport Office</a>
-                    <a href="#" className="text-black">Bangladesh Passport Office</a>
-                    <a href="#" className="text-black">Bangladesh Passport Office</a>
+                    <a href="www.facebook.com" className="text-black">Bangladesh Passport Office</a>
+                    <a href="www.facebook.com" className="text-black">Bangladesh Passport Office</a>
+                    <a href="www.facebook.com" className="text-black">Bangladesh Passport Office</a>
+                    <a href="www.facebook.com" className="text-black">Bangladesh Passport Office</a>
+                    <a href="www.facebook.com" className="text-black">Bangladesh Passport Office</a>
 
                 </Col>
                 <Col  sm={4} lg={4} xs={12} className="d-flex flex-column">
@@ -33,7 +33,7 @@ const Footer = () => {
                     Schanzenstrasse 7  <br/>
                     3030 BERNE  <br/>
                     SWITZERLAND <br/> 
-                    <a href="_blank"> For Details </a>
+                    <a href="www.facebook.com"> For Details </a>
                 </address>
                 </Col>
             </Row>

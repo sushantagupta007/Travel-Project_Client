@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Col, Container, Image, Row } from 'react-bootstrap';
 
-import Tourist from '../../../Image/Background/Tourist.jpg'
+
 
 import OwlCarousel from 'react-owl-carousel';  
 import 'owl.carousel/dist/assets/owl.carousel.css';  
@@ -10,36 +10,50 @@ import './ClientFeed.js'
 import { Card} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { useState,useEffect } from 'react';
 
-const Clients = [
-    {   name: "MR. X", 
-        img:"https://www.pngall.com/wp-content/uploads/8/Tourist-People-PNG.png",
-        rating:5, 
-        quote: "See the world, it is more fantastic than dream"
-    },
-    {   name: "MR Y",
-        img:"https://cdn01.buxtonco.com/news/2661/istock-665028882__large.jpg",
-        rating:4,
-        quote:"Live, travel, adventure,bless and don't be sorry"
-    },
-    {
-        name: "MR Z",
-        img:"https://cdn01.buxtonco.com/news/2661/istock-665028882__large.jpg",
-        rating:5,
-        quote:"To travel, is to live. "
-    },
-    {
-        name: "MR Z",
-        img:"https://cdn01.buxtonco.com/news/2661/istock-665028882__large.jpg",
-        rating:5,
-        quote:"To travel, is to live. "
-    },
-  
-]
+
+// const Clients = [
+//     {   name: "MR. X", 
+//         img:"https://www.pngall.com/wp-content/uploads/8/Tourist-People-PNG.png",
+//         rating:5, 
+//         quote: "See the world, it is more fantastic than dream"
+//     },
+//     {   name: "MR Y",
+//         img:"https://cdn01.buxtonco.com/news/2661/istock-665028882__large.jpg",
+//         rating:4,
+//         quote:"Live, travel, adventure,bless and don't be sorry"
+//     },
+//     {
+//         name: "MR Z",
+//         img:"https://cdn01.buxtonco.com/news/2661/istock-665028882__large.jpg",
+//         rating:5,
+//         quote:"To travel, is to live. "
+//     },
+//     {
+//         name: "MR T",
+//         img:"https://cdn01.buxtonco.com/news/2661/istock-665028882__large.jpg",
+//         rating:5,
+//         quote:"To travel, is to live. "
+//     },
+// ]
 
 // import './owl.css'
 
+
 const ClientFeed = () => {
+        const [clients,setClients] = useState([]); 
+
+        useEffect(()=>{
+            fetch('http://localhost:5000/Clients')
+                .then(res=>res.json())
+                .then(data=>{
+                    setClients(data)
+                    console.log(data)
+                    
+                })
+        },[])
+
         return (  
         <div className="mb-2">  
             <div className='container-fluid' >      
@@ -55,8 +69,8 @@ const ClientFeed = () => {
           loop  
           nav  
           margin={8} >  
-          {Clients.map((client)=>
-            <Card style={{ width: '25rem' }}>
+          {clients.map((client)=>
+            <Card key={client._id} style={{ width: '25rem' }}>
             <Card.Img  className="img"variant="top" src={client.img} />
             <Card.Body>
               <Card.Title>{client.name}</Card.Title>
@@ -65,7 +79,7 @@ const ClientFeed = () => {
               </Card.Text>
                  
                   {Array.from(Array(client.rating).keys()).map((item)=>
-                  <div className="d-inline-block text-warning"><FontAwesomeIcon icon={faStar}></FontAwesomeIcon> </div>)}
+                  <div key={item.key}className="d-inline-block text-warning"><FontAwesomeIcon icon={faStar}></FontAwesomeIcon> </div>)}
             
             </Card.Body>
           </Card> 

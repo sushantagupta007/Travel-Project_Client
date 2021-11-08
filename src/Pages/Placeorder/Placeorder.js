@@ -1,17 +1,35 @@
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Col, Container, Row } from 'react-bootstrap';
-import Select from 'react-select';
+
 import Information from '../Home/Information/Information';
+import useAuth from '../../Hooks/useAuth';
+import { useLocation, useParams } from 'react-router';
+import { useState } from 'react';
 
 
-const Myorder = () => {
-   
+const Placeorder = () => {
+        const[bookInfo,setbookInfo] = useState(); 
+    const {user} = useAuth();     
     const { register, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+    const location = useLocation();
+    console.log(location)
+    const {_id}= useParams(); 
+        console.log(_id)
+        
+    const onSubmit = data => {  
+        fetch(`http://localhost:5000/placeorder`,{
+                method:'POST',
+                headers:{"content-type":"application/json"},
+                body:JSON.stringify(data)
+        })
+        .then(setbookInfo(data))
+        
+        }
+       
+       
+    
     return (
-
-
         <Container>
                 <Row>
             <Col lg={9} xs={12}>
@@ -24,26 +42,26 @@ const Myorder = () => {
                 <input 
                         readOnly
                         placeholder="Booking Name"
-                        defaultValue="Sushanta"
+                        defaultValue= {user.displayName}
                         className="my-1 p-2"    
                         type="text"
-                        {...register("firstName", { required: true, maxLength: 20 })} 
+                        {...register("UserName", { required: true, maxLength: 20 })} 
                 />
                     <label>Your Email</label>
                 <input 
                         readOnly
-                        defaultValue="sushanta.sust@gmail.com"
+                        defaultValue={user.email}
                         className="my-1 p-2"  
                         {...register("email", { required:true })} 
                         type="email"
                 />
                     <label className="fw-bold">What types of service do you need?</label>
                 <input 
-                        readOnly
-                        defaultValue="Visa Consultancy"
+                        
+                        defaultValue={location.state?.name}
                         className="my-1 p-2"  
                         {...register("service", { required:true })} 
-                        type="email"
+                        type="text"
                 />
                 <input 
                         
@@ -73,7 +91,7 @@ const Myorder = () => {
                         style={{resize:'none'}} 
                         placeholder="How can we assist you in visa?"
                         className="my-1 p-2"  
-                        {...register("preferable hotel",)} 
+                        {...register("visa assistance",)} 
                         type="text"
                 />
 
@@ -98,13 +116,22 @@ const Myorder = () => {
                         {...register("date", { required:true })} 
                         type="date"
                 />
+                 <input 
+                        readOnly
+                        defaultValue="Pending"
+                        className="my-1 p-2"  
+                        placeholder="Order Status"
+                        {...register("status", { required:true })} 
+                        type="text"
+                />
                 </Col>
             </Row>
                     
                <input type="submit" className="mb-2 btn-warning"/>
                
             </form>
-        
+            {bookInfo?.email ? alert("Successfully Booked"):"" }
+                
         </Col>
                     <Col lg={3} xs={12}>
                         <Information></Information>
@@ -118,4 +145,4 @@ const Myorder = () => {
     );
 };
 
-export default Myorder;
+export default Placeorder;

@@ -6,9 +6,10 @@ import Footer from '../Footer/Footer';
 import Information from '../Information/Information';
 import Services from '../Services/Services';
 import Slider from '../Slider/Slider';
-import Navigation from './../Navigation/Navigation';
+
 
 const Home = () => {
+    
     return (
         <div>
             {/* <Navigation></Navigation> */}
@@ -26,6 +27,7 @@ const Home = () => {
             <ClientFeed></ClientFeed>
             <Contact></Contact>
             <Footer></Footer>
+            
         </div>
     );
 };

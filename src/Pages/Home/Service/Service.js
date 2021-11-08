@@ -1,8 +1,21 @@
 import React from 'react';
 import { Card, Col,Button } from 'react-bootstrap';
+import { Link, useHistory } from "react-router-dom";
+
 
 const Service = (props) => {
-    const {name,img,description} = props.service
+    const history = useHistory(); 
+    
+    // const handleClick =(id)=>{
+    //     console.log(id)
+    //     history.push({
+    //         pathname:'/myorder',
+    //         state:id
+    //     })
+    // }
+    
+    const {_id,name,img,description} = props.service
+    // console.log(_id); 
     return (
         <Col xs={12} sm={6} md={6} lg={4} className="p-2">
             <Card style={{ width: '16rem' }}>
@@ -12,7 +25,7 @@ const Service = (props) => {
                 <Card.Text>
                 {description}
                 </Card.Text>
-                <Button ovariant="danger">Book {name}</Button>
+                <Link to={`/placeorder/${_id}`}><Button variant="danger">Book {name}</Button> </Link>
             </Card.Body>
             </Card>
         </Col>
@@ -20,3 +33,5 @@ const Service = (props) => {
 };
 
 export default Service;
+
+// onClick={()=>handleClick(props.service)}

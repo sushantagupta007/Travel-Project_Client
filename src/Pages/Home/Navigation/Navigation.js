@@ -1,9 +1,17 @@
-import Button from '@restart/ui/esm/Button';
+
 import React from 'react';
-import { Container, Form, FormControl, Nav, Navbar } from 'react-bootstrap';
+import { Container,Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import useAuth from './../../../Hooks/useAuth';
 
 const Navigation = () => {
+  const {user,googleSignOut} = useAuth(); 
+
+  const handleSignout = ()=>{
+    googleSignOut()
+  }
+  
+  console.log(user)
     return (
 <Navbar bg="" expand="lg">
   <Container>
@@ -13,13 +21,18 @@ const Navigation = () => {
       <Nav className="me-auto">
         <NavLink className="me-3 p-2 text-black" to="/home">Home</NavLink>
         <NavLink className="me-3 p-2 text-black" to="/services">Services</NavLink>
-        <NavLink className="me-3 p-2 text-black" to="/myorder">My Order</NavLink>
-        <NavLink className="me-3 p-2 text-black" to="/manageorder">Manage Order</NavLink>
-        <NavLink className="me-3 p-2 text-black" to="/admin">Admin</NavLink>
-        <NavLink className="me-3 p-2 text-black" to="/login">Login</NavLink>
+        {user.email? <NavLink className="me-3 p-2 text-black" to="/placeorder">Place Order</NavLink>:" "}
+        {user.email? <NavLink className="me-3 p-2 text-black" to="/managemyorder">My Order</NavLink>:" "}
+        {user.email? <NavLink className="me-3 p-2 text-black" to="/addnewservice">Add New Service</NavLink>:""}
+        {user.email? <NavLink className="me-3 p-2 text-black" to="/manageallorders">Manage Service</NavLink>:""}
+        
+        
+        {user.email?  <div className="d-flex align-items-center fw-bold me-3"> Welcome Mr. {user.email}  </div> :""}
+        {user.email? <button type="button" className="btn btn-danger" onClick={handleSignout}>Logout</button>:<NavLink className="me-3 p-2 text-black" to="/login">Login</NavLink>}
+        
       </Nav>
     </Navbar.Collapse>
-    <Form className="d-flex">
+    {/* <Form className="d-flex">
         <FormControl
           type="search"
           placeholder="Search"
@@ -27,7 +40,7 @@ const Navigation = () => {
           aria-label="Search"
         />
         <Button type="button" className="btn btn-danger" variant="outline-success">Search</Button>
-      </Form>
+      </Form> */}
   </Container>
 </Navbar>
     );
